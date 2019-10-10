@@ -1,0 +1,10 @@
+---
+# handlers file for auditbeat
+- name: restart auditbeat
+  become: yes
+  service:
+    name: auditbeat
+    state: restarted
+  when: service_default_state | default('started') == 'started'
+  tags: [ auditbeat ]
+...

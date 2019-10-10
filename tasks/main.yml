@@ -1,0 +1,57 @@
+---
+- name: Install prereq. pkg
+  apt:
+    name:
+      - apt-transport-https
+      - gpg
+    state: present
+  tags: auditbeat
+
+- name: Add ElasticSearch repo key
+  apt_key:
+    url: "{{ es_apt_key }}"
+    state: present
+  tags: auditbeat
+
+- name: Add ElasticSearch repository
+  apt_repository:
+    repo: "{{ es_apt_url }}"
+    state: present
+  tags: auditbeat
+
+- name: Auditbeat | Apt pinning for pkgs
+  template:
+    src: "pinning.j2"
+    dest: "/etc/apt/preferences.d/{{ item.name }}"
+    owner: root
+    group: root
+    mode: 0644
+  loop: "{{ es_auditbeat_pinning_pkgs }}"
+  when:
+    - es_auditbeat_pinning_pkgs is defined
+    - es_auditbeat_pinning_pkgs
+  tags: auditbeat
+
+- name: Install auditbeat package
+  apt:
+    name: auditbeat
+    state: present
+  tags: auditbeat
+
+- name: Create main auditbeat config
+  template:
+    src: "auditbeat.yml.j2"
+    dest: "/etc/auditbeat/auditbeat.yml"
+    owner: root
+    group: root
+    mode: 0600
+  notify: restart auditbeat
+  tags: auditbeat
+
+- name: Enable and start auditbeat service
+  systemd:
+    name: auditbeat
+    enabled: true
+    state: started
+  tags: auditbeat
+...

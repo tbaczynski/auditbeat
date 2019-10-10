@@ -1,0 +1,21 @@
+---
+galaxy_info:
+  author: Tomasz Baczynski
+  description: auditbeat
+  company: Bul.IT
+
+  license: BSD
+
+  min_ansible_version: 2.7
+
+  platforms:
+    - name: Ubuntu
+      versions:
+        - bionic
+
+  galaxy_tags:
+    - elasticsearch
+    - auditbeat
+
+dependencies: []
+...
