@@ -3,7 +3,7 @@
 es_apt_key: "https://artifacts.elastic.co/GPG-KEY-elasticsearch"
 es_apt_url: "deb https://artifacts.elastic.co/packages/{{ es_major_version }}/apt stable main"
 es_major_version: 7.x
-es_enable_pinning: True
+es_enable_pinning: true
 es_auditbeat_pinning_pkgs:
   - { name: 'auditbeat', version: '{{ es_auditbeat_version }}', priority: 1000 }
 es_auditbeat_version: '7.3.*'

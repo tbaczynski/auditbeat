@@ -29,7 +29,6 @@
   loop: "{{ es_auditbeat_pinning_pkgs }}"
   when:
     - es_auditbeat_pinning_pkgs is defined
-    - es_auditbeat_pinning_pkgs
   tags: auditbeat
 
 - name: Install auditbeat package
