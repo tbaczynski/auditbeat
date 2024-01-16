@@ -1,7 +1,7 @@
 ---
 # handlers file for auditbeat
 - name: restart auditbeat
-  service:
+  ansible.builtin.service:
     name: auditbeat
     state: restarted
   when: service_default_state | default('started') == 'started'
