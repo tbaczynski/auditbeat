@@ -1,25 +1,25 @@
 ---
 - name: Install prereq. pkg
-  apt:
+  ansible.builtin.apt:
     name:
       - apt-transport-https
     state: present
   tags: auditbeat
 
 - name: Add ElasticSearch repo key
-  apt_key:
+  ansible.builtin.apt_key:
     url: "{{ es_apt_key }}"
     state: present
   tags: auditbeat
 
 - name: Add ElasticSearch repository
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: "{{ es_apt_url }}"
     state: present
   tags: auditbeat
 
 - name: Auditbeat | Apt pinning for pkgs
-  template:
+  ansible.builtin.template:
     src: "pinning.j2"
     dest: "/etc/apt/preferences.d/{{ item.name }}"
     owner: root
@@ -31,13 +31,13 @@
   tags: auditbeat
 
 - name: Install auditbeat package
-  apt:
+  ansible.builtin.apt:
     name: auditbeat
     state: present
   tags: auditbeat
 
 - name: Create main auditbeat config
-  template:
+  ansible.builtin.template:
     src: "auditbeat.yml.j2"
     dest: "/etc/auditbeat/auditbeat.yml"
     owner: root
@@ -47,7 +47,7 @@
   tags: auditbeat
 
 - name: Enable and start auditbeat service
-  systemd:
+  ansible.builtin.service:
     name: auditbeat
     enabled: true
     state: started
